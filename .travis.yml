@@ -8,10 +8,14 @@ cache:
   directories:
     - "$HOME/.composer/cache/files"
 
-before_install:
-  - composer self-update
+before_script:
+  - git config --global credential.helper 'cache --timeout=3600'
+  - git config --global user.email "$(git log --format="%ce" -n 1 | tr -d '\n' | tr -d ' ')"
+  - git config --global user.name "$(git log --format="%cn" -n 1 | tr -d '\n')"
+  - git config --global push.default simple
 
-install: true
+script:
+  - ./travis.sh
 
 # http://docs.travis-ci.com/user/migrating-from-legacy/#tl%3Bdr
 sudo: false
