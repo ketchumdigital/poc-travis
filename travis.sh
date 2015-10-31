@@ -27,4 +27,9 @@ if [ -n "${LATEST_COMMIT}" ]; then
   unset file
 
 
+  git checkout -b $TRAVIS_BRANCH-amend
+  git add --all &> /dev/null
+  git commit --m "Amended: $LATEST_SHA $(git log --format="%s" -n 1 | tr -d '\n')"
+  git remote add deploy git@github.com:$TRAVIS_REPO_SLUG.git
+
 fi
